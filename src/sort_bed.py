@@ -20,12 +20,12 @@ def sort_file(table: Table) -> None:
         # and then update the table
         # FIXME: sort `features`
         table[chrom] = features  # features should be sorted here
-        features.sort(key=get_chrom_start)
+        features.sort(key=get_chrom_start)                       
 
 
 def print_file(table: Table, outfile: TextIO) -> None:
     """Write the content of table to outfile."""
-    for chrom in sorted(table.tbl):
+    for chrom in sorted(table.tbl):                               # sorts keys
         for feature in table.get_chrom(chrom):
             print_line(feature, outfile)
 
