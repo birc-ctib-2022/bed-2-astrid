@@ -75,4 +75,3 @@ Merging multiple files one at a time: For every output to a new file we make one
 All at once: for every output to the single new file we make n-1 comparisons because we look at all n files to find the smallest number. We need to output nm lines in total, (n-1)*nm.
 
 Maybe?
-
