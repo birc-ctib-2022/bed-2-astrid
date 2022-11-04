@@ -16,10 +16,10 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
     if not line:
         return []
 
-    res = [parse_line(line)]
+    res = [parse_line(line)]                          # list with only the first bedline
     for line in f:
         feature = parse_line(line)
-        prev_feature = res[-1]
+        prev_feature = res[-1]                        # the last bedline in the list
         assert prev_feature.chrom < feature.chrom or \
             (prev_feature.chrom == feature.chrom and
              prev_feature.chrom_start <= feature.chrom_start), \
@@ -29,9 +29,42 @@ def read_bed_file(f: TextIO) -> list[BedLine]:
     return res
 
 
-def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
+def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:  
     """Merge features and write them to outfile."""
     # FIXME: I have work to do here!
+    i, j = 0, 0
+    z = []  # a new list to copy elements into
+
+    # merge by chromosome name except if they are equal, then merge by chrom_start
+
+    while i < len(f1) and j < len(f2):
+        feature_f1 = f1[i]                             # bedline accessed by the names chrom and chrom_start
+        feature_f2 = f2[j]
+
+        if feature_f1.chrom == feature_f2.chrom:                   # merge by 'chrom_start'
+            if feature_f1.chrom_start < feature_f2.chrom_start:
+                z.append(feature_f1)
+                i += 1
+            else:
+                z.append(feature_f2)
+                j += 1
+
+        elif feature_f1.chrom < feature_f2.chrom:                  # merge by 'chrom'
+            z.append(feature_f1)
+            i += 1
+        else:
+            z.append(feature_f2)
+            j += 1
+        
+        if i == len(f1):
+            z.extend(f2[j:])
+
+        if j == len(f2):
+            z.extend(f1[i:])
+
+
+    for features in z:
+        print_line(features, outfile)
 
 
 def main() -> None:
