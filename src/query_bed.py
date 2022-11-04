@@ -17,18 +17,11 @@ def extract_region(features: list[BedLine],
     for bedline in features:
         start_list.append(bedline[1])
 
-<<<<<<< HEAD
-    index_lower = lower_bound(start_list, start)
-    index_upper = upper_bound(start_list, end-1)    # start position equal to 'end' will be excluded
-    # index_upper = upper_bound(end_list, end)      # An end position equal to 'end' should be included.
-=======
-
     index_lower = lower_bound(start_list, start)
     index_upper = upper_bound(start_list, end-1)    # start position equal to 'end' will be excluded
     # index_upper = upper_bound(end_list, end)      # An end position equal to 'end' should be included
->>>>>>> 86423997e18e881db06b3f88b9860ba7d3d2449c
 
-region = features[index_lower:index_upper]
+    region = features[index_lower:index_upper]
 
     return region
 
