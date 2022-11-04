@@ -29,7 +29,7 @@ def parse_line(line: str) -> BedLine:
     if you ever want to allow more general features.
     """
     chrom, start, end, name = line.split()  # split on any white-space
-    bed_line = BedLine(chrom, int(start), int(end), name)
+    bed_line = BedLine(chrom, int(start), int(end), name) # here the output is made of the type BedLine
     assert bed_line.chrom_start + 1 == bed_line.chrom_end
     return bed_line
 

@@ -35,11 +35,10 @@ def merge(f1: list[BedLine], f2: list[BedLine], outfile: TextIO) -> None:
     i, j = 0, 0
     z = []  # a new list to copy elements into
 
-    # index into string with chrom_name[5]
-    # merge by chromosome name first and then, for each chrom_name, merge by chrom_start
+    # merge by chromosome name except if they are equal, then merge by chrom_start
 
     while i < len(f1) and j < len(f2):
-        feature_f1 = f1[i]                             # bedline accessed by names chrom and chrom_start
+        feature_f1 = f1[i]                             # bedline accessed by the names chrom and chrom_start
         feature_f2 = f2[j]
 
         if feature_f1.chrom == feature_f2.chrom:                   # merge by 'chrom_start'

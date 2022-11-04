@@ -59,8 +59,19 @@ Once you have implemented a lower bound search for the start of the range, imple
 *Answer the questions below and then push this file to GitHub.*
 
 *How do you use binary search to find the lower bound of a number? How did you have to modify the binary search algorithm?*
+- We modify the binary search algorithm to find lower bound by instead of breaking if x[mid] == v we continue the loop thereby moving low and/or high until they reach eachother. This way we are sure to find the first index of value v (or the value closest to v) when we return low.
+
 
 *Would anything be more difficult if the features covered ranges instead of single nucleotides (like real BED files)? What could go wrong, if anything?*
+- If a feature just have to start in the query interval to be extracted then there is no problem. If it has to end within the interval it complicates things. When the features are sorted by start position they cannot also be sorted by end position.
+We could go through all the features in our extracted region and remove those that don't end in the query interval, but that would run in linear time.
+Additionally some features could start outside the query interval but end in it or span over both start and end of the query. We would have to alter the functions significantly to find these.
+
 
 *We wrote a tool for merging two BED files, but what if we had a bunch of them? What would the complexity be if we merged them in, one at a time? What would the complexity be if we merged all of the files at the same time?*
+- Merging two files runs in O(m+l), where m, l are the length of the files.
+Merging multiple files one at a time: For every output to a new file we make one comparison (worst case). If all files have the same length, m, the first merge of files takes m+(m-1) comparisons. The next takes 2m+(m-1) and so on until we have merged in the last file. If n is the number of files the complexity is (n-1)*m + (n-2)*m ... 2m.
 
+All at once: for every output to the single new file we make n-1 comparisons because we look at all n files to find the smallest number. We need to output nm lines in total, (n-1)*nm.
+
+Maybe?
